@@ -11,7 +11,7 @@ export default function App() {
   const [keywordFilter, setKeywordFilter] = useState(null);
   const [filterType, setFilterType] = useState("");
   const [durationFilter, setDurationFilter] = useState("");
-  
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [showKeywords, setShowKeywords] = useState(false);
   const loaderRef = useRef(null);
 
@@ -36,7 +36,7 @@ export default function App() {
 
   useEffect(() => {
     setVisibleCount(18);
-  }, [filterType, keywordFilter, durationFilter]);
+  }, [filterType, keywordFilter, durationFilter, dateRange]);
 
   const isoToSec = (iso = "") => {
     const [, h = 0, m = 0, s = 0] = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) || [];
@@ -114,21 +114,23 @@ export default function App() {
     .filter((v) => {
       if (keywordFilter && !v.title.toLowerCase().includes(keywordFilter.toLowerCase())) return false;
       if (filterType === "popular") return ["✍️ Hacer guion", "🧠 TOP"].includes(v.tag);
-      if (filterType === "veryhigh") return v.tag === "🔥 Muy Alta";
       if (filterType === "hornstromp") return ["UCaCoS1ylN81PAgotBDyKgug", "UCpRx8BFSkdVx8MAW8unaJcw"].includes(v.channelId);
       return true;
     })
     .filter((v) => {
-      if (durationFilter === "short") return v.durationSec < 120;
-      if (durationFilter === "medium") return v.durationSec >= 120 && v.durationSec <= 480;
-      if (durationFilter === "long") return v.durationSec > 480;
+      if (durationFilter === "short") return v.durationSec < 60;
+      if (durationFilter === "medium") return v.durationSec >= 60 && v.durationSec <= 600;
+      if (durationFilter === "long") return v.durationSec > 600;
       return true;
     })
-    
+    .filter((v) => {
+      if (dateRange.start && new Date(v.publishedDate) < new Date(dateRange.start)) return false;
+      if (dateRange.end && new Date(v.publishedDate) > new Date(dateRange.end)) return false;
+      return true;
+    })
     .sort((a, b) => {
       if (filterType === "likes") return b.likes - a.likes;
       if (filterType === "comments") return b.comments - a.comments;
-      if (filterType === "recent") return new Date(b.publishedDate) - new Date(a.publishedDate);
       return 0;
     });
 
@@ -139,29 +141,21 @@ export default function App() {
 
   const VideoCard = memo(({ v }) => (
     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow hover:shadow-xl transition hover:-translate-y-1 flex flex-col overflow-hidden">
-      {/* Miniatura */}
       <div className="relative">
         <a href={`https://youtu.be/${v.videoId}`} target="_blank" rel="noreferrer">
           <img src={`https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`} alt={v.title} className="w-full aspect-video object-cover" loading="lazy" />
           <span className="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[11px] font-semibold px-1.5 rounded">{v.durationFmt}</span>
         </a>
       </div>
-
-      {/* Contenido */}
       <div className="p-3 flex-1 flex flex-col gap-1">
         <h3 className="text-center text-sm font-semibold line-clamp-2 dark:text-slate-100">{v.title}</h3>
-
         <p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">{v.views.toLocaleString()} visitas</p>
-
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
-
         <div className="flex justify-between text-[11px] text-gray-400 mt-auto">
           <span>{v.publishedFmt}</span>
           <span className="text-purple-600 dark:text-purple-400 font-semibold">{v.daysAgo}</span>
         </div>
       </div>
-
-      {/* Etiqueta VPD */}
       <div style={{ backgroundColor: v.tagColor }} className="text-white text-center text-xs py-1 font-semibold">{v.tag}</div>
     </div>
   ));
@@ -193,17 +187,28 @@ export default function App() {
 
       {/* FILTROS PRINCIPALES */}
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-  <button onClick={() => setFilterType("")} className={`px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700 ${filterType === "" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🔄 Todos</button>
-  <button onClick={() => setFilterType("popular")} className={`px-2 py-1 rounded text-xs bg-yellow-300 ${filterType === "popular" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🏆 Populares</button>
-  <button onClick={() => setFilterType("veryhigh")} className={`px-2 py-1 rounded text-xs bg-orange-300 ${filterType === "veryhigh" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🔥 Muy Alta</button>
-  <button onClick={() => setFilterType("recent")} className={`px-2 py-1 rounded text-xs bg-sky-300 ${filterType === "recent" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🆕 Recientes</button>
-  <button onClick={() => setFilterType("hornstromp")} className={`px-2 py-1 rounded text-xs bg-pink-300 ${filterType === "hornstromp" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🎮 Hornstromp</button>
-  <button onClick={() => setFilterType("likes")} className={`px-2 py-1 rounded text-xs bg-emerald-300 ${filterType === "likes" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>❤️ Likes</button>
-  <button onClick={() => setFilterType("comments")} className={`px-2 py-1 rounded text-xs bg-blue-300 ${filterType === "comments" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>💬 Comentarios</button>
-</div>
+        <button onClick={() => setFilterType("")} className="px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700">🔄 Todos</button>
+        <button onClick={() => setFilterType("popular")} className="px-2 py-1 rounded text-xs bg-yellow-300">🏆 Populares</button>
+        <button onClick={() => setFilterType("hornstromp")} className="px-2 py-1 rounded text-xs bg-pink-300">🎮 Hornstromp</button>
+        <button onClick={() => setFilterType("likes")} className="px-2 py-1 rounded text-xs bg-emerald-300">❤️ Likes</button>
+        <button onClick={() => setFilterType("comments")} className="px-2 py-1 rounded text-xs bg-blue-300">💬 Comentarios</button>
+      </div>
 
       {/* FILTROS ADICIONALES */}
-      <div className="flex flex-wrap gap-2 justify-center items-center p-2"><button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
+      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
+        <label className="flex items-center gap-1 text-xs">
+          Desde
+          <input type="date" value={dateRange.start} onChange={(e) => setDateRange((r) => ({ ...r, start: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
+        </label>
+        <label className="flex items-center gap-1 text-xs">
+          Hasta
+          <input type="date" value={dateRange.end} onChange={(e) => setDateRange((r) => ({ ...r, end: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
+        </label>
+        {(dateRange.start || dateRange.end) && (
+          <button onClick={() => setDateRange({ start: "", end: "" })} className="px-2 py-1 rounded text-xs bg-red-300">❌ Limpiar fechas</button>
+        )}
+
+        <button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
         <button onClick={() => setDurationFilter("short")} className={`px-2 py-1 rounded text-xs ${durationFilter === "short" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Cortos</button>
         <button onClick={() => setDurationFilter("medium")} className={`px-2 py-1 rounded text-xs ${durationFilter === "medium" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Medios</button>
         <button onClick={() => setDurationFilter("long")} className={`px-2 py-1 rounded text-xs ${durationFilter === "long" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Largos</button>
@@ -309,7 +314,7 @@ export default function App() {
             </table>
           </div>
         </div>
-      
+      )} flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       {/* Cabecera y botones de filtro están integrados en tu código original */}
       {/* ... CONTINÚA CON TU INTERFAZ EXACTA (cabecera, filtros, secciones, keywords modal...) ... */}
     </div>
