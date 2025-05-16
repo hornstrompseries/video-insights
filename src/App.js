@@ -162,61 +162,108 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
-      {/* CABECERA */}
-      <header className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-slate-100 dark:bg-slate-900 shadow sticky top-0 z-30">
-        <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2">📊 Video Insights</h1>
-        <div className="flex gap-2 items-center">
-          {keywordFilter && (
-            <button onClick={() => setKeywordFilter(null)} className="text-xs bg-red-100 dark:bg-red-800 text-red-700 dark:text-white px-2 py-1 rounded flex items-center gap-1">
-              <X size={14} /> Borrar filtro
-            </button>
-          )}
-          <button
-            onClick={() => {
-              setDark((d) => {
-                localStorage.setItem("vi-dark", d ? "0" : "1");
-                return !d;
-              });
-            }}
-            className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-          >
-            {dark ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+            {/* ────────── MÉTRICAS ────────── */}
+      <section className="flex flex-wrap gap-4 px-4 py-4 justify-center bg-slate-50 dark:bg-slate-800">
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm flex flex-col gap-0.5 text-center w-28 sm:w-32">
+          <span className="text-gray-500 dark:text-gray-400 uppercase tracking-wide text-[10px]">Videos</span>
+          <span className="text-sm font-bold whitespace-nowrap">{filteredVideos.length}</span>
         </div>
-      </header>
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm flex flex-col gap-0.5 text-center w-28 sm:w-32">
+          <span className="text-gray-500 dark:text-gray-400 uppercase tracking-wide text-[10px]">Visitas totales</span>
+          <span className="text-sm font-bold whitespace-nowrap">{totalViews.toLocaleString()}</span>
+        </div>
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm flex flex-col gap-0.5 text-center w-28 sm:w-32">
+          <span className="text-gray-500 dark:text-gray-400 uppercase tracking-wide text-[10px]">Visitas/día prom</span>
+          <span className="text-sm font-bold whitespace-nowrap">{avgVPD.toLocaleString()}</span>
+        </div>
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-2 shadow-sm flex flex-col gap-0.5 text-center w-28 sm:w-32">
+          <span className="text-gray-500 dark:text-gray-400 uppercase tracking-wide text-[10px]">Muy altas / Guion</span>
+          <span className="text-sm font-bold whitespace-nowrap">{hiScore}</span>
+        </div>
+      </section>
 
-      {/* FILTROS PRINCIPALES */}
-      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-        <button onClick={() => setFilterType("")} className="px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700">🔄 Todos</button>
-        <button onClick={() => setFilterType("popular")} className="px-2 py-1 rounded text-xs bg-yellow-300">🏆 Populares</button>
-        <button onClick={() => setFilterType("hornstromp")} className="px-2 py-1 rounded text-xs bg-pink-300">🎮 Hornstromp</button>
-        <button onClick={() => setFilterType("likes")} className="px-2 py-1 rounded text-xs bg-emerald-300">❤️ Likes</button>
-        <button onClick={() => setFilterType("comments")} className="px-2 py-1 rounded text-xs bg-blue-300">💬 Comentarios</button>
-      </div>
+      {/* ────────── GRID DE VÍDEOS ────────── */}
+      <main className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-16">
+        {shown.map((v) => (
+          <VideoCard key={v.videoId} v={v} />
+        ))}
+      </main>
 
-      {/* FILTROS ADICIONALES */}
-      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-        {/* Rango de fechas */}
-        <label className="flex items-center gap-1 text-xs">
-          Desde
-          <input type="date" value={dateRange.start} onChange={(e) => setDateRange((r) => ({ ...r, start: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
-        </label>
-        <label className="flex items-center gap-1 text-xs">
-          Hasta
-          <input type="date" value={dateRange.end} onChange={(e) => setDateRange((r) => ({ ...r, end: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
-        </label>
-        {(dateRange.start || dateRange.end) && (
-          <button onClick={() => setDateRange({ start: "", end: "" })} className="px-2 py-1 rounded text-xs bg-red-300">❌ Limpiar fechas</button>
-        )}
+      {/* Loader para scroll infinito */}
+      <div ref={loaderRef} className="h-10" />
 
-        {/* Duración */}
-        <button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
-        <button onClick={() => setDurationFilter("short")} className={`px-2 py-1 rounded text-xs ${durationFilter === "short" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Cortos</button>
-        <button onClick={() => setDurationFilter("medium")} className={`px-2 py-1 rounded text-xs ${durationFilter === "medium" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Medios</button>
-        <button onClick={() => setDurationFilter("long")} className={`px-2 py-1 rounded text-xs ${durationFilter === "long" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Largos</button>
-      </div>
+      {/* Botón keywords */}
+      <button
+        onClick={() => setShowKeywords(true)}
+        className="fixed bottom-4 right-4 z-50 bg-purple-600 text-white w-14 h-14 text-xl rounded-full shadow-xl hover:bg-purple-700 flex items-center justify-center"
+      >
+        🔑
+      </button>
 
-      {/* ... CONTINÚA CON LA SECCIÓN DE MÉTRICAS Y VIDEO GRID ... */ flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+      {/* Modal keywords */}
+      {showKeywords && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
+          <div className="bg-white dark:bg-slate-800 w-full max-w-sm h-[90vh] overflow-y-auto p-4 shadow-xl rounded-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200">🔑 Top Keywords</h2>
+              <button onClick={() => setShowKeywords(false)} className="text-slate-500 dark:text-slate-300 hover:text-red-500">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="mb-3 text-xs text-slate-600 dark:text-slate-300">
+              <p className="mb-1 font-semibold">📊 Leyenda de impacto:</p>
+              <div className="grid grid-cols-2 gap-1">
+                <span>🚀 Explosiva</span>
+                <span>📈 Subiendo</span>
+                <span>➖ Estable</span>
+                <span>📉 Bajando</span>
+                <span>❌ Irrelevante</span>
+              </div>
+            </div>
+            <table className="text-xs w-full border-collapse">
+              <thead>
+                <tr className="border-b border-slate-300/40 dark:border-slate-600 text-left bg-slate-100 dark:bg-slate-700 text-[11px] uppercase text-slate-600 dark:text-slate-300">
+                  <th className="pr-1 py-2">#</th>
+                  <th className="py-2">Keyword</th>
+                  <th className="text-right py-2 pr-2">Uses</th>
+                  <th className="text-right py-2 pr-2">Avg</th>
+                  <th className="text-right py-2">Impacto</th>
+                  <th className="text-right py-2 pr-2">📊</th>
+                </tr>
+              </thead>
+              <tbody>
+                {keywords.map((k, i) => {
+                  const icon =
+                    k.impacto > 700000 ? "🚀" :
+                    k.impacto > 400000 ? "📈" :
+                    k.impacto > 200000 ? "➖" :
+                    k.impacto > 100000 ? "📉" : "❌";
+
+                  return (
+                    <tr
+                      key={i}
+                      className={`cursor-pointer border-b border-slate-100 dark:border-slate-700 ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-700'}`}
+                      onClick={() => {
+                        setKeywordFilter(k.keyword);
+                        setShowKeywords(false);
+                      }}
+                    >
+                      <td className="pr-1 align-top text-[10px] text-slate-500 dark:text-slate-400">{i + 1}</td>
+                      <td className="capitalize truncate max-w-[120px]" title={k.keyword}>
+                        <span className="text-slate-800 dark:text-slate-100 font-medium">{k.keyword}</span>
+                      </td>
+                      <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.uses}</td>
+                      <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.avg.toLocaleString()}</td>
+                      <td className="text-right text-slate-600 dark:text-slate-300">{k.impacto.toLocaleString()}</td>
+                      <td className="text-right text-xl">{icon}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )} flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       {/* Cabecera y botones de filtro están integrados en tu código original */}
       {/* ... CONTINÚA CON TU INTERFAZ EXACTA (cabecera, filtros, secciones, keywords modal...) ... */}
     </div>
