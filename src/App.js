@@ -145,7 +145,7 @@ export default function App() {
           <span className="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[11px] font-semibold px-1.5 rounded">{v.durationFmt}</span>
         </a>
       </div>
-      $1<p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">
+      <p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">
           {v.views.toLocaleString()} visitas
         </p>
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
@@ -185,20 +185,17 @@ export default function App() {
 
       {/* FILTROS PRINCIPALES */}
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-  $1$2 ${$2 === filterType ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`$3`}>🔄 Todos</button>
-  <button onClick={() => setFilterType("popular")} className={`px-2 py-1 rounded text-xs bg-yellow-300 ${filterType === "popular" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🏆 Populares</button>
-  <button onClick={() => setFilterType("veryhigh")} className={`px-2 py-1 rounded text-xs bg-orange-300 ${filterType === "veryhigh" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🔥 Muy Alta</button>
-  <button onClick={() => setFilterType("recent")} className={`px-2 py-1 rounded text-xs bg-sky-300 ${filterType === "recent" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🆕 Recientes</button>
-  <button onClick={() => setFilterType("hornstromp")} className={`px-2 py-1 rounded text-xs bg-pink-300 ${filterType === "hornstromp" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🎮 Hornstromp</button>
-  <button onClick={() => setFilterType("likes")} className={`px-2 py-1 rounded text-xs bg-emerald-300 ${filterType === "likes" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>❤️ Likes</button>
-  <button onClick={() => setFilterType("comments")} className={`px-2 py-1 rounded text-xs bg-blue-300 ${filterType === "comments" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>💬 Comentarios</button>
+  <button onClick={() => setFilterType("")} className={`px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700 ${filterType === "" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🔄 Todos</button>
+  <button onClick={() => setFilterType("popular")} className={`px-2 py-1 rounded text-xs bg-yellow-300 ${filterType === "popular" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🏆 Populares</button>
+  <button onClick={() => setFilterType("veryhigh")} className={`px-2 py-1 rounded text-xs bg-orange-300 ${filterType === "veryhigh" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🔥 Muy Alta</button>
+  <button onClick={() => setFilterType("recent")} className={`px-2 py-1 rounded text-xs bg-sky-300 ${filterType === "recent" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🆕 Recientes</button>
+  <button onClick={() => setFilterType("hornstromp")} className={`px-2 py-1 rounded text-xs bg-pink-300 ${filterType === "hornstromp" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>🎮 Hornstromp</button>
+  <button onClick={() => setFilterType("likes")} className={`px-2 py-1 rounded text-xs bg-emerald-300 ${filterType === "likes" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>❤️ Likes</button>
+  <button onClick={() => setFilterType("comments")} className={`px-2 py-1 rounded text-xs bg-blue-300 ${filterType === "comments" ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`}>💬 Comentarios</button>
 </div>
 
       {/* FILTROS ADICIONALES */}
-      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-        }
-
-        <button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
+      <div className="flex flex-wrap gap-2 justify-center items-center p-2"><button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
         <button onClick={() => setDurationFilter("short")} className={`px-2 py-1 rounded text-xs ${durationFilter === "short" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Cortos</button>
         <button onClick={() => setDurationFilter("medium")} className={`px-2 py-1 rounded text-xs ${durationFilter === "medium" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Medios</button>
         <button onClick={() => setDurationFilter("long")} className={`px-2 py-1 rounded text-xs ${durationFilter === "long" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Largos</button>
