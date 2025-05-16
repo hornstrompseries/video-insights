@@ -184,8 +184,7 @@ export default function App() {
 
       <button
         onClick={() => setShowKeywords(true)}
-        className="fixed bottom-4 right-4 z-50 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700"
-      >
+        className="fixed bottom-4 right-4 z-50 bg-purple-600 text-white w-14 h-14 text-xl rounded-full shadow-xl hover:bg-purple-700 flex items-center justify-center"
         🔑
       </button>
     </div>
