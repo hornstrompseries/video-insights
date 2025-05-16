@@ -187,6 +187,49 @@ export default function App() {
         className="fixed bottom-4 right-4 z-50 bg-purple-600 text-white w-14 h-14 text-xl rounded-full shadow-xl hover:bg-purple-700 flex items-center justify-center"
         🔑
       </button>
+          {showKeywords && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
+          <div className="bg-white dark:bg-slate-800 w-full max-w-sm h-[90vh] overflow-y-auto p-4 shadow-xl rounded-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200">🔑 Top Keywords</h2>
+              <button onClick={() => setShowKeywords(false)} className="text-slate-500 dark:text-slate-300 hover:text-red-500">
+                <X size={20} />
+              </button>
+            </div>
+            <table className="text-xs w-full border-collapse">
+              <thead>
+                <tr className="border-b border-slate-300/40 dark:border-slate-600 text-left bg-slate-100 dark:bg-slate-700 text-[11px] uppercase text-slate-600 dark:text-slate-300">
+                  <th className="pr-1 py-2">#</th>
+                  <th className="py-2">Keyword</th>
+                  <th className="text-right py-2 pr-2">Uses</th>
+                  <th className="text-right py-2 pr-2">Avg <span title="Visitas promedio por vídeo que usa esta keyword" className="cursor-help text-blue-500">?</span></th>
+                  <th className="text-right py-2">Impacto</th>
+                </tr>
+              </thead>
+              <tbody>
+                {keywords.map((k, i) => (
+                  <tr
+                    key={i}
+                    className={`cursor-pointer border-b border-slate-100 dark:border-slate-700 ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-700'}`}
+                    onClick={() => {
+                      setKeywordFilter(k.keyword);
+                      setShowKeywords(false);
+                    }}
+                  >
+                    <td className="pr-1 align-top text-[10px] text-slate-500 dark:text-slate-400">{i + 1}</td>
+                    <td className="capitalize truncate max-w-[120px]" title={k.keyword}>
+                      <span className="text-slate-800 dark:text-slate-100 font-medium">{k.keyword}</span>
+                    </td>
+                    <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.uses}</td>
+                    <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.avg.toLocaleString()}</td>
+                    <td className="text-right text-slate-600 dark:text-slate-300">{k.impacto.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
