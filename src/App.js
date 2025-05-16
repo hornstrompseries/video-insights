@@ -36,7 +36,7 @@ export default function App() {
 
   useEffect(() => {
     setVisibleCount(18);
-  }, [filterType, keywordFilter, durationFilter, dateRange]);
+  }, [filterType, keywordFilter, durationFilter]);
 
   const isoToSec = (iso = "") => {
     const [, h = 0, m = 0, s = 0] = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) || [];
@@ -128,6 +128,7 @@ export default function App() {
     .sort((a, b) => {
       if (filterType === "likes") return b.likes - a.likes;
       if (filterType === "comments") return b.comments - a.comments;
+      if (filterType === "recent") return new Date(b.publishedDate) - new Date(a.publishedDate);
       return 0;
     });
 
@@ -147,8 +148,7 @@ export default function App() {
       <div className="p-3 flex-1 flex flex-col gap-1">
         <h3 className="text-center text-sm font-semibold line-clamp-2 dark:text-slate-100">{v.title}</h3>
         <div className="flex justify-center items-center gap-2">
-  <img src={`https://yt3.ggpht.com/ytc/${v.channelId}=s40-c-k-c0x00ffffff-no-rj`} alt="canal" className="w-5 h-5 rounded-full" loading="lazy" />
-  $1
+  <span className="text-xs text-gray-500 dark:text-gray-300 italic">Canal: {v.channelTitle || "Desconocido"}</span>
 </div>
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
         <div className="flex justify-between text-[11px] text-gray-400 mt-auto">
@@ -187,9 +187,10 @@ export default function App() {
 
       {/* FILTROS PRINCIPALES */}
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-        <button onClick={() => setFilterType("")} className="px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700">🔄 Todos</button>
+        <button onClick={() => setFilterType("$1")} className={`px-2 py-1 rounded text-xs $2 ${filterType === "$1" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`>🔄 Todos</button>
         <button onClick={() => setFilterType("popular")} className="px-2 py-1 rounded text-xs bg-yellow-300">🏆 Populares</button>
         <button onClick={() => setFilterType("veryhigh")} className="px-2 py-1 rounded text-xs bg-orange-300">🔥 Muy Alta</button>
+        <button onClick={() => setFilterType("recent")} className="px-2 py-1 rounded text-xs bg-sky-300">🆕 Recientes</button>
         <button onClick={() => setFilterType("hornstromp")} className="px-2 py-1 rounded text-xs bg-pink-300">🎮 Hornstromp</button>
         <button onClick={() => setFilterType("likes")} className="px-2 py-1 rounded text-xs bg-emerald-300">❤️ Likes</button>
         <button onClick={() => setFilterType("comments")} className="px-2 py-1 rounded text-xs bg-blue-300">💬 Comentarios</button>
