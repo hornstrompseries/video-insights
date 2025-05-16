@@ -304,7 +304,7 @@ export default function App() {
             </table>
           </div>
         </div>
-      )} flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+      
       {/* Cabecera y botones de filtro están integrados en tu código original */}
       {/* ... CONTINÚA CON TU INTERFAZ EXACTA (cabecera, filtros, secciones, keywords modal...) ... */}
     </div>
