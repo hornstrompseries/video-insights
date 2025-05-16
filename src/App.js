@@ -1,5 +1,5 @@
-// App.js con scroll infinito activado
-import React, { useState, useMemo, useEffect, memo, useRef, useCallback } from "react";
+// App.js con scroll infinito activado y panel de keywords responsive en móvil
+import React, { useState, useMemo, useEffect, memo, useRef } from "react";
 import * as XLSX from "xlsx";
 import { Moon, Sun, X } from "lucide-react";
 
@@ -27,12 +27,8 @@ export default function App() {
         setVisibleCount((prev) => prev + 18);
       }
     });
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
+    if (loaderRef.current) observer.observe(loaderRef.current);
+    return () => loaderRef.current && observer.unobserve(loaderRef.current);
   }, []);
 
   const isoToSec = (iso = "") => {
@@ -190,9 +186,12 @@ export default function App() {
       </button>
 
       {showKeywords && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
-          <div className="bg-white dark:bg-slate-800 w-full max-w-sm h-[90vh] overflow-y-auto p-4 shadow-xl rounded-lg">
-            <div className="flex justify-between items-center mb-4">
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex justify-center items-end sm:items-center"
+          style={{ touchAction: "auto" }}
+        >
+          <div className="bg-white dark:bg-slate-800 w-full max-w-sm max-h-[90vh] overflow-y-auto p-4 shadow-xl rounded-t-2xl sm:rounded-lg sm:mb-0 mb-2">
+            <div className="flex justify-between items-center mb-4 sticky top-0 bg-white dark:bg-slate-800 z-10">
               <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200">🔑 Top Keywords</h2>
               <button onClick={() => setShowKeywords(false)} className="text-slate-500 dark:text-slate-300 hover:text-red-500">
                 <X size={20} />
