@@ -120,8 +120,8 @@ export default function App() {
     })
     .filter((v) => {
       if (durationFilter === "short") return v.durationSec < 120;
-      if (durationFilter === "medium") return v.durationSec >= 60 && v.durationSec <= 600;
-      if (durationFilter === "long") return v.durationSec > 600;
+      if (durationFilter === "medium") return v.durationSec >= 120 && v.durationSec <= 480;
+      if (durationFilter === "long") return v.durationSec > 480;
       return true;
     })
     
