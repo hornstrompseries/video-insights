@@ -149,7 +149,10 @@ export default function App() {
       </div>
       <div className="p-3 flex-1 flex flex-col gap-1">
         <h3 className="text-center text-sm font-semibold line-clamp-2 dark:text-slate-100">{v.title}</h3>
-        <p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">{v.views.toLocaleString()} visitas</p>
+        <div className="flex justify-center items-center gap-2">
+  <img src={`https://yt3.ggpht.com/ytc/${v.channelId}=s40-c-k-c0x00ffffff-no-rj`} alt="canal" className="w-5 h-5 rounded-full" loading="lazy" />
+  $1
+</div>
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
         <div className="flex justify-between text-[11px] text-gray-400 mt-auto">
           <span>{v.publishedFmt}</span>
