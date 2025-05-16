@@ -127,6 +127,7 @@ export default function App() {
       }
     );
   };
+
   const filteredVideos = videos
     .filter((v) => {
       if (keywordFilter && !v.title.toLowerCase().includes(keywordFilter.toLowerCase())) return false;
@@ -242,27 +243,37 @@ export default function App() {
                   <th className="text-right py-2 pr-2">Uses</th>
                   <th className="text-right py-2 pr-2">Avg</th>
                   <th className="text-right py-2">Impacto</th>
+                  <th className="text-right py-2 pr-2">📊</th>
                 </tr>
               </thead>
               <tbody>
-                {keywords.map((k, i) => (
-                  <tr
-                    key={i}
-                    className={`cursor-pointer border-b border-slate-100 dark:border-slate-700 ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-700'}`}
-                    onClick={() => {
-                      setKeywordFilter(k.keyword);
-                      setShowKeywords(false);
-                    }}
-                  >
-                    <td className="pr-1 align-top text-[10px] text-slate-500 dark:text-slate-400">{i + 1}</td>
-                    <td className="capitalize truncate max-w-[120px]" title={k.keyword}>
-                      <span className="text-slate-800 dark:text-slate-100 font-medium">{k.keyword}</span>
-                    </td>
-                    <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.uses}</td>
-                    <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.avg.toLocaleString()}</td>
-                    <td className="text-right text-slate-600 dark:text-slate-300">{k.impacto.toLocaleString()}</td>
-                  </tr>
-                ))}
+                {keywords.map((k, i) => {
+                  const icon =
+                    k.impacto > 700000 ? "📈📈" :
+                    k.impacto > 400000 ? "📈" :
+                    k.impacto < 100000 ? "📉📉" :
+                    k.impacto < 200000 ? "📉" : "⚖️";
+
+                  return (
+                    <tr
+                      key={i}
+                      className={`cursor-pointer border-b border-slate-100 dark:border-slate-700 ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-700'}`}
+                      onClick={() => {
+                        setKeywordFilter(k.keyword);
+                        setShowKeywords(false);
+                      }}
+                    >
+                      <td className="pr-1 align-top text-[10px] text-slate-500 dark:text-slate-400">{i + 1}</td>
+                      <td className="capitalize truncate max-w-[120px]" title={k.keyword}>
+                        <span className="text-slate-800 dark:text-slate-100 font-medium">{k.keyword}</span>
+                      </td>
+                      <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.uses}</td>
+                      <td className="text-right pr-2 text-slate-600 dark:text-slate-300">{k.avg.toLocaleString()}</td>
+                      <td className="text-right text-slate-600 dark:text-slate-300">{k.impacto.toLocaleString()}</td>
+                      <td className="text-right text-xl">{icon}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
