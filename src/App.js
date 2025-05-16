@@ -58,7 +58,7 @@ export default function App() {
   };
 
   const loadVideos = () => {
-    readRemoteSheet("http://localhost:8000/data/youtube_rss_recent_videos.xlsx", (raw) => {
+    readRemoteSheet("https://video-insights-backend.onrender.com/data/youtube_rss_recent_videos.xlsx", (raw) => {
       const list = raw
         .map((v) => {
           const views = +(`${v.views}`.replace(/\D/g, "") || 0);
@@ -89,7 +89,7 @@ export default function App() {
   };
 
   const loadKeywords = () => {
-    readRemoteSheet("http://localhost:8000/data/tendencias_coloreadas_youtube.xlsx", (raw) => {
+    readRemoteSheet("https://video-insights-backend.onrender.com/data/tendencias_coloreadas_youtube.xlsx", (raw) => {
       const list = raw
         .map((k) => {
           const palabra = k["palabra_clave"] || "";
