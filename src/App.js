@@ -145,9 +145,9 @@ export default function App() {
           <span className="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[11px] font-semibold px-1.5 rounded">{v.durationFmt}</span>
         </a>
       </div>
-      <div className="p-3 flex-1 flex flex-col gap-1">
-        <h3 className="text-center text-sm font-semibold line-clamp-2 dark:text-slate-100">{v.title}</h3>
-        
+      $1<p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">
+          {v.views.toLocaleString()} visitas
+        </p>
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
         <div className="flex justify-between text-[11px] text-gray-400 mt-auto">
           <span>{v.publishedFmt}</span>
