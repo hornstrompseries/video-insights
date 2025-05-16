@@ -186,7 +186,11 @@ export default function App() {
         onClick={() => setShowKeywords(true)}
         className="fixed bottom-4 right-4 z-50 bg-purple-600 text-white w-14 h-14 text-xl rounded-full shadow-xl hover:bg-purple-700 flex items-center justify-center"
       >
-        🔑<div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
+        🔑
+      </button>
+
+      {showKeywords && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
           <div className="bg-white dark:bg-slate-800 w-full max-w-sm h-[90vh] overflow-y-auto p-4 shadow-xl rounded-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200">🔑 Top Keywords</h2>
