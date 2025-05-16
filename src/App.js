@@ -139,21 +139,29 @@ export default function App() {
 
   const VideoCard = memo(({ v }) => (
     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow hover:shadow-xl transition hover:-translate-y-1 flex flex-col overflow-hidden">
+      {/* Miniatura */}
       <div className="relative">
         <a href={`https://youtu.be/${v.videoId}`} target="_blank" rel="noreferrer">
           <img src={`https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`} alt={v.title} className="w-full aspect-video object-cover" loading="lazy" />
           <span className="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[11px] font-semibold px-1.5 rounded">{v.durationFmt}</span>
         </a>
       </div>
-      <p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">
-          {v.views.toLocaleString()} visitas
-        </p>
+
+      {/* Contenido */}
+      <div className="p-3 flex-1 flex flex-col gap-1">
+        <h3 className="text-center text-sm font-semibold line-clamp-2 dark:text-slate-100">{v.title}</h3>
+
+        <p className="text-center text-xl font-extrabold text-green-600 dark:text-green-400">{v.views.toLocaleString()} visitas</p>
+
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">{v.likes.toLocaleString()} likes · {v.comments.toLocaleString()} comentarios</p>
+
         <div className="flex justify-between text-[11px] text-gray-400 mt-auto">
           <span>{v.publishedFmt}</span>
           <span className="text-purple-600 dark:text-purple-400 font-semibold">{v.daysAgo}</span>
         </div>
       </div>
+
+      {/* Etiqueta VPD */}
       <div style={{ backgroundColor: v.tagColor }} className="text-white text-center text-xs py-1 font-semibold">{v.tag}</div>
     </div>
   ));
