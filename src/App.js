@@ -114,20 +114,17 @@ export default function App() {
     .filter((v) => {
       if (keywordFilter && !v.title.toLowerCase().includes(keywordFilter.toLowerCase())) return false;
       if (filterType === "popular") return ["✍️ Hacer guion", "🧠 TOP"].includes(v.tag);
+      if (filterType === "veryhigh") return v.tag === "🔥 Muy Alta";
       if (filterType === "hornstromp") return ["UCaCoS1ylN81PAgotBDyKgug", "UCpRx8BFSkdVx8MAW8unaJcw"].includes(v.channelId);
       return true;
     })
     .filter((v) => {
-      if (durationFilter === "short") return v.durationSec < 60;
+      if (durationFilter === "short") return v.durationSec < 120;
       if (durationFilter === "medium") return v.durationSec >= 60 && v.durationSec <= 600;
       if (durationFilter === "long") return v.durationSec > 600;
       return true;
     })
-    .filter((v) => {
-      if (dateRange.start && new Date(v.publishedDate) < new Date(dateRange.start)) return false;
-      if (dateRange.end && new Date(v.publishedDate) > new Date(dateRange.end)) return false;
-      return true;
-    })
+    
     .sort((a, b) => {
       if (filterType === "likes") return b.likes - a.likes;
       if (filterType === "comments") return b.comments - a.comments;
@@ -192,6 +189,7 @@ export default function App() {
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
         <button onClick={() => setFilterType("")} className="px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700">🔄 Todos</button>
         <button onClick={() => setFilterType("popular")} className="px-2 py-1 rounded text-xs bg-yellow-300">🏆 Populares</button>
+        <button onClick={() => setFilterType("veryhigh")} className="px-2 py-1 rounded text-xs bg-orange-300">🔥 Muy Alta</button>
         <button onClick={() => setFilterType("hornstromp")} className="px-2 py-1 rounded text-xs bg-pink-300">🎮 Hornstromp</button>
         <button onClick={() => setFilterType("likes")} className="px-2 py-1 rounded text-xs bg-emerald-300">❤️ Likes</button>
         <button onClick={() => setFilterType("comments")} className="px-2 py-1 rounded text-xs bg-blue-300">💬 Comentarios</button>
