@@ -162,6 +162,61 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+      {/* CABECERA */}
+      <header className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-slate-100 dark:bg-slate-900 shadow sticky top-0 z-30">
+        <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2">📊 Video Insights</h1>
+        <div className="flex gap-2 items-center">
+          {keywordFilter && (
+            <button onClick={() => setKeywordFilter(null)} className="text-xs bg-red-100 dark:bg-red-800 text-red-700 dark:text-white px-2 py-1 rounded flex items-center gap-1">
+              <X size={14} /> Borrar filtro
+            </button>
+          )}
+          <button
+            onClick={() => {
+              setDark((d) => {
+                localStorage.setItem("vi-dark", d ? "0" : "1");
+                return !d;
+              });
+            }}
+            className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+          >
+            {dark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+        </div>
+      </header>
+
+      {/* FILTROS PRINCIPALES */}
+      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
+        <button onClick={() => setFilterType("")} className="px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700">🔄 Todos</button>
+        <button onClick={() => setFilterType("popular")} className="px-2 py-1 rounded text-xs bg-yellow-300">🏆 Populares</button>
+        <button onClick={() => setFilterType("hornstromp")} className="px-2 py-1 rounded text-xs bg-pink-300">🎮 Hornstromp</button>
+        <button onClick={() => setFilterType("likes")} className="px-2 py-1 rounded text-xs bg-emerald-300">❤️ Likes</button>
+        <button onClick={() => setFilterType("comments")} className="px-2 py-1 rounded text-xs bg-blue-300">💬 Comentarios</button>
+      </div>
+
+      {/* FILTROS ADICIONALES */}
+      <div className="flex flex-wrap gap-2 justify-center items-center p-2">
+        {/* Rango de fechas */}
+        <label className="flex items-center gap-1 text-xs">
+          Desde
+          <input type="date" value={dateRange.start} onChange={(e) => setDateRange((r) => ({ ...r, start: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
+        </label>
+        <label className="flex items-center gap-1 text-xs">
+          Hasta
+          <input type="date" value={dateRange.end} onChange={(e) => setDateRange((r) => ({ ...r, end: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
+        </label>
+        {(dateRange.start || dateRange.end) && (
+          <button onClick={() => setDateRange({ start: "", end: "" })} className="px-2 py-1 rounded text-xs bg-red-300">❌ Limpiar fechas</button>
+        )}
+
+        {/* Duración */}
+        <button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
+        <button onClick={() => setDurationFilter("short")} className={`px-2 py-1 rounded text-xs ${durationFilter === "short" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Cortos</button>
+        <button onClick={() => setDurationFilter("medium")} className={`px-2 py-1 rounded text-xs ${durationFilter === "medium" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Medios</button>
+        <button onClick={() => setDurationFilter("long")} className={`px-2 py-1 rounded text-xs ${durationFilter === "long" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Largos</button>
+      </div>
+
+      {/* ... CONTINÚA CON LA SECCIÓN DE MÉTRICAS Y VIDEO GRID ... */ flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       {/* Cabecera y botones de filtro están integrados en tu código original */}
       {/* ... CONTINÚA CON TU INTERFAZ EXACTA (cabecera, filtros, secciones, keywords modal...) ... */}
     </div>
