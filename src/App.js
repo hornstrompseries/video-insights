@@ -11,7 +11,7 @@ export default function App() {
   const [keywordFilter, setKeywordFilter] = useState(null);
   const [filterType, setFilterType] = useState("");
   const [durationFilter, setDurationFilter] = useState("");
-  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  
   const [showKeywords, setShowKeywords] = useState(false);
   const loaderRef = useRef(null);
 
@@ -185,7 +185,7 @@ export default function App() {
 
       {/* FILTROS PRINCIPALES */}
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-  <button onClick={() => setFilterType("")} className={`px-2 py-1 rounded text-xs bg-slate-200 dark:bg-slate-700 ${filterType === "" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🔄 Todos</button>
+  $1$2 ${$2 === filterType ? 'ring-2 ring-black dark:ring-white font-bold bg-opacity-90 scale-105 transition-all duration-150' : ''}`$3`}>🔄 Todos</button>
   <button onClick={() => setFilterType("popular")} className={`px-2 py-1 rounded text-xs bg-yellow-300 ${filterType === "popular" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🏆 Populares</button>
   <button onClick={() => setFilterType("veryhigh")} className={`px-2 py-1 rounded text-xs bg-orange-300 ${filterType === "veryhigh" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🔥 Muy Alta</button>
   <button onClick={() => setFilterType("recent")} className={`px-2 py-1 rounded text-xs bg-sky-300 ${filterType === "recent" ? 'ring-2 ring-black dark:ring-white font-bold' : ''}`}>🆕 Recientes</button>
@@ -196,17 +196,7 @@ export default function App() {
 
       {/* FILTROS ADICIONALES */}
       <div className="flex flex-wrap gap-2 justify-center items-center p-2">
-        <label className="flex items-center gap-1 text-xs">
-          Desde
-          <input type="date" value={dateRange.start} onChange={(e) => setDateRange((r) => ({ ...r, start: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
-        </label>
-        <label className="flex items-center gap-1 text-xs">
-          Hasta
-          <input type="date" value={dateRange.end} onChange={(e) => setDateRange((r) => ({ ...r, end: e.target.value }))} className="border rounded px-1 py-0.5 text-xs dark:bg-slate-700" />
-        </label>
-        {(dateRange.start || dateRange.end) && (
-          <button onClick={() => setDateRange({ start: "", end: "" })} className="px-2 py-1 rounded text-xs bg-red-300">❌ Limpiar fechas</button>
-        )}
+        }
 
         <button onClick={() => setDurationFilter("")} className={`px-2 py-1 rounded text-xs ${durationFilter === "" ? "bg-slate-400 dark:bg-slate-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Todas</button>
         <button onClick={() => setDurationFilter("short")} className={`px-2 py-1 rounded text-xs ${durationFilter === "short" ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700"}`}>⏱️ Cortos</button>
