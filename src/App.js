@@ -285,10 +285,10 @@ export default function App() {
               <tbody>
                 {keywords.map((k, i) => {
                   const icon =
-                    k.Avg > 700000 ? "🚀" :
-                    k.Avg > 400000 ? "📈" :
-                    k.Avg > 200000 ? "➖" :
-                    k.Avg > 100000 ? "📉" : "❌";
+                    k.Avg > 700.000 ? "🚀" :
+                    k.Avg > 400.000 ? "📈" :
+                    k.Avg > 200.000 ? "➖" :
+                    k.Avg > 100.000 ? "📉" : "❌";
 
                   return (
                     <tr
