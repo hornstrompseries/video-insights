@@ -288,7 +288,7 @@ export default function App() {
                     k.impacto > 8000000 ? "🚀" :
                     k.impacto > 4000000 ? "📈" :
                     k.impacto > 200000 ? "➖" :
-                    k.impacto > 100000 ? "📉" : "❌";
+                    k.impacto > 50000 ? "📉" : ;
 
                   return (
                     <tr
