@@ -105,7 +105,7 @@ export default function App() {
           avg: media,
           impacto: media * apariciones,
         };
-      }).sort((a, b) => b.avg - a.avg).slice(0, 100);
+      }).sort((a, b) => b.impacto - a.impacto).slice(0, 100);
       setKeywords(list);
     });
   };
@@ -278,17 +278,17 @@ export default function App() {
                   <th className="py-2">Keyword</th>
                   <th className="text-right py-2 pr-2">Uses</th>
                   <th className="text-right py-2 pr-2">Avg</th>
-                  <th className="text-right py-2">impacto</th>
+                  <th className="text-right py-2">Impacto</th>
                   <th className="text-right py-2 pr-2">📊</th>
                 </tr>
               </thead>
               <tbody>
                 {keywords.map((k, i) => {
                   const icon =
-                    k.Avg > 500000 ? "🚀" :
-                    k.Avg > 300000 ? "📈" :
-                    k.Avg > 200000 ? "➖" :
-                    k.Avg > 100000 ? "📉" : "❌";
+                    k.impacto > 700000 ? "🚀" :
+                    k.impacto > 400000 ? "📈" :
+                    k.impacto > 200000 ? "➖" :
+                    k.impacto > 100000 ? "📉" : "❌";
 
                   return (
                     <tr
@@ -314,7 +314,7 @@ export default function App() {
             </table>
           </div>
         </div>
-      )} flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+      )} flex flex-col bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       {/* Cabecera y botones de filtro están integrados en tu código original */}
       {/* ... CONTINÚA CON TU INTERFAZ EXACTA (cabecera, filtros, secciones, keywords modal...) ... */}
     </div>
