@@ -287,7 +287,7 @@ export default function App() {
                   const icon =
                     k.impacto > 10000000 ? "🚀" :
                     k.impacto > 800000 ? "📈" :
-                    k.impacto > 500000 ? "➖" :
+                    k.impacto > 350000 ? "➖" :
                     k.impacto > 300000 ? "📉" : "❌";
 
                   return (
