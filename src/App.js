@@ -168,7 +168,6 @@ export default function App() {
         <div className="flex gap-2 items-center">
           {keywordFilter && (
             <button onClick={() => setKeywordFilter(null)} className="text-xs bg-red-100 dark:bg-red-800 text-red-700 dark:text-white px-2 py-1 rounded flex items-center gap-1">
-              <button onClick={() => setFilterType("recientes")} className="px-2 py-1 rounded text-xs bg-green-300">🕒 Recientes</button>
               <X size={14} /> Borrar filtro
             </button>
           )}
@@ -178,7 +177,7 @@ export default function App() {
                 localStorage.setItem("vi-dark", d ? "0" : "1");
                 return !d;
               });
-            }}S
+            }}
             className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition"
           >
             {dark ? <Sun size={20} /> : <Moon size={20} />}
@@ -279,17 +278,17 @@ export default function App() {
                   <th className="py-2">Keyword</th>
                   <th className="text-right py-2 pr-2">Uses</th>
                   <th className="text-right py-2 pr-2">Avg</th>
-                  <th className="text-right py-2">Impacto</th>
+                  <th className="text-right py-2">impacto</th>
                   <th className="text-right py-2 pr-2">📊</th>
                 </tr>
               </thead>
               <tbody>
                 {keywords.map((k, i) => {
                   const icon =
-                    k.impacto > 700000 ? "🚀" :
-                    k.impacto > 400000 ? "📈" :
-                    k.impacto > 200000 ? "➖" :
-                    k.impacto > 100000 ? "📉" : "❌";
+                    k.Avg > 700000 ? "🚀" :
+                    k.Avg > 400000 ? "📈" :
+                    k.Avg > 200000 ? "➖" :
+                    k.Avg > 100000 ? "📉" : "❌";
 
                   return (
                     <tr
