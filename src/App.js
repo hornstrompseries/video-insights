@@ -168,6 +168,7 @@ export default function App() {
         <div className="flex gap-2 items-center">
           {keywordFilter && (
             <button onClick={() => setKeywordFilter(null)} className="text-xs bg-red-100 dark:bg-red-800 text-red-700 dark:text-white px-2 py-1 rounded flex items-center gap-1">
+              <button onClick={() => setFilterType("recientes")} className="px-2 py-1 rounded text-xs bg-green-300">🕒 Recientes</button>
               <X size={14} /> Borrar filtro
             </button>
           )}
@@ -177,7 +178,7 @@ export default function App() {
                 localStorage.setItem("vi-dark", d ? "0" : "1");
                 return !d;
               });
-            }}
+            }}S
             className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition"
           >
             {dark ? <Sun size={20} /> : <Moon size={20} />}
