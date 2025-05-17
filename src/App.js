@@ -105,7 +105,7 @@ export default function App() {
           avg: media,
           impacto: media * apariciones,
         };
-      }).sort((a, b) => b.impacto - a.impacto).slice(0, 100);
+      }).sort((a, b) => b.avg - a.avg).slice(0, 100);
       setKeywords(list);
     });
   };
@@ -285,10 +285,10 @@ export default function App() {
               <tbody>
                 {keywords.map((k, i) => {
                   const icon =
-                    k.Avg > 700.000 ? "🚀" :
-                    k.Avg > 400.000 ? "📈" :
-                    k.Avg > 200.000 ? "➖" :
-                    k.Avg > 100.000 ? "📉" : "❌";
+                    k.Avg > 500000 ? "🚀" :
+                    k.Avg > 300000 ? "📈" :
+                    k.Avg > 200000 ? "➖" :
+                    k.Avg > 100000 ? "📉" : "❌";
 
                   return (
                     <tr
