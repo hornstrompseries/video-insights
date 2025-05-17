@@ -285,7 +285,7 @@ export default function App() {
               <tbody>
                 {keywords.map((k, i) => {
                   const icon =
-                    k.impacto > 2000000 ? "🚀" :
+                    k.impacto > 10000000 ? "🚀" :
                     k.impacto > 800000 ? "📈" :
                     k.impacto > 500000 ? "➖" :
                     k.impacto > 300000 ? "📉" : "❌";
